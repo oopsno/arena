@@ -21,7 +21,7 @@ class CmdArgument(object):
         return self._KEY
 
     def format(self) -> str:
-        return NotImplemented
+        raise NotImplementedError
 
     def __str__(self):
         try:
@@ -46,15 +46,23 @@ class Cmd(object):
         self._args.clear()
 
     @property
-    def command(self):
+    def command(self) -> str:
         return self._cmd
 
     @property
-    def arguments(self):
+    def arguments(self) -> [CmdArgument]:
         return self._args
 
+    @property
+    def options(self) -> str:
+        raise NotImplementedError
+
+    def _dump_args(self):
+        return ' '.join(map(str, self._args))
+
     def __str__(self):
-        return '{} {}'.format(self._cmd, ' '.join(map(str, self._args)))
+
+        return '{} {}'.format(self._cmd, self._dump_args())
 
     def run(self, **kwargs):
         subprocess.run(str(self), **kwargs)
