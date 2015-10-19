@@ -1,6 +1,35 @@
 import subprocess
 
 
+class CmdArgument(object):
+    _PREFIX = None
+    _KEY = None
+
+    def __init__(self, value):
+        self._value = value
+
+    @property
+    def value(self):
+        return self._value
+
+    @property
+    def prefix(self):
+        return self._PREFIX
+
+    @property
+    def key(self):
+        return self._KEY
+
+    def format(self) -> str:
+        return NotImplemented
+
+    def __str__(self):
+        try:
+            return self.format()
+        except NotImplementedError:
+            return '{}{} "{}"'.format(self._PREFIX, self._KEY, self._value)
+
+
 class Cmd(object):
     def __init__(self, cmd: str):
         self._cmd = cmd
@@ -32,35 +61,6 @@ class Cmd(object):
 
     def su_run(self, **kwargs):
         subprocess.run('sudo {!s}'.format(self), **kwargs)
-
-
-class CmdArgument(object):
-    _PREFIX = None
-    _KEY = None
-
-    def __init__(self, value):
-        self._value = value
-
-    @property
-    def value(self):
-        return self._value
-
-    @property
-    def prefix(self):
-        return self._PREFIX
-
-    @property
-    def key(self):
-        return self._KEY
-
-    def format(self) -> str:
-        return NotImplemented
-
-    def __str__(self):
-        try:
-            return self.format()
-        except NotImplementedError:
-            return '{}{} "{}"'.format(self._PREFIX, self._KEY, self._value)
 
 
 def cmd_argument(key: str, prefix: str = None):
