@@ -25,13 +25,6 @@ class Compile(Cmd):
     def options(self) -> str:
         return '{} -o {}'.format(self._src, self._target)
 
-    def su_run(self, **kwargs):
-        """
-        DO NOT compiles as root
-        :param kwargs: ignored
-        """
-        raise NotImplementedError("DO NOT compiles as root")
-
     def compile(self):
         return self.run()
 

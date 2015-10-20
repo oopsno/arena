@@ -68,7 +68,7 @@ class Cmd(object):
         subprocess.run(str(self), **kwargs)
 
     def su_run(self, **kwargs):
-        subprocess.run('sudo {!s}'.format(self), **kwargs)
+        raise NotImplementedError("DO NOT execute {} as root".format(self._cmd))
 
 
 def cmd_argument(key: str, prefix: str = None):
